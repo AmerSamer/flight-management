@@ -8,8 +8,8 @@ const Header = () => {
                 <Link className="item" href="/">
                     Home
                 </Link>
-                <Link className="item" href="/users">
-                    Clients
+                <Link className="item" href="/search">
+                    Search
                 </Link>
                  <Link className="item" href="/deposits">
                     Vehicle

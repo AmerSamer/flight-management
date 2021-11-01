@@ -1,58 +1,48 @@
 import React from 'react';
 import Spinner from './Spinner'
-function Users({ users }) {
+function Users({ flights , fromInput , toInput  , dateDeparture , dateLanding}) {
     return (
-        <div className="ui container">
-            <div className="users-details">
-                {
-                    users ? users.map((i, index) => {
-                        // console.log(`url(${i.avatar}/${index})`);
-                        return (
-                            <div key={index} >
-                                <div className="ui segment">
-                                    <div className="ui divided items">
-                                        <div className="item">
-                                            <div className="image">
-                                                <div style={{
-                                                    backgroundImage: `url(${i.avatar}/${index})`,
-                                                    // <img src="https://placeimg.com/640/480/?car">
-                                                    // ${i.avatar}
-                                                    height: '150px',
-                                                    width: '150px',
-                                                    backgroundSize: 'cover',
-                                                    backgroundRepeat: 'no-repeat'
-                                                }}></div>
-                                            </div>
-                                            <div className="content">
-                                                <a className="header">Name: {i.name}</a>
-                                                <div className="meta">
-                                                    {/* <span>Amount: {total[index]}</span> */}
-                                                </div>
-                                                <div className="description">
+        <div >
+            <p style={{textAlign: 'center' , fontSize: '30px'}}>Look For your own Travil</p>
+            <div className='inputs' style={{
+                display: "flex",
+                flexWrap: "wrap",
+                justifyContent: "space-around"
+            }}>
+                <div className="ui icon input" style={{ padding: '1rem 0' }}>
+                    <input type='text' name='from' placeholder='From' onChange={fromInput}/>
+                    {/* onChange={idSenderHandler} */}
+                    <i className="location arrow icon"></i>
+                </div>
+                <div className="ui icon input" style={{ padding: '1rem 0' }}>
+                    <input type='text' name='to' placeholder='To' onChange={toInput}/>
+                    {/* onChange={cashHandler}  */}
+                    <i className="location arrow icon"></i>
+                </div>
+                <div className="ui icon input" style={{ padding: '1rem 0' }}>
+                    <input type='date' name='time' placeholder='' onChange={dateDeparture}/>
+                     
+                    <i className="calendar times outline icon"></i>
+                </div>
+                <div className="ui icon input" style={{ padding: '1rem 0' }}>
+                    <input type='date' name='time' placeholder='' onChange={dateLanding}/>
+                    {/* onChange={cashHandler}  */}
+                    <i className="calendar times outline icon"></i>
+                </div>
 
-                                                    <p>Active: {i.isActive ? 'True' : 'False'}</p>
-                                                    <p>createdAt: {i.createdAt}</p>
-                                                    {/* <p>Password: {i.password}</p> */}
-                                                </div>
-                                                <div className="extra">
-                                                    <p>ID: {i.id}</p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                <div style={{ padding: '1rem 0' }}>
+                    <input className="ui button"
+                        type='button'
+                        name='bt'
+                        value='Search'
+                    // onClick={adminChashToAccountHandler}
 
-                                    {/* <div>
-                                    id: {i.id} name: {i.name} userName: {i.userName} country: {i.country} total Amount: {total[index]}
-                                </div>
-                                <hr/> */}
-                                    {/* {index<users.length-1 ? <hr/>:""} */}
-                                </div>
-                            </div>
-                        )
-                    }) : <Spinner />
-                }
+                    />
+                </div>
             </div>
-
+            {/* <div>
+        {wrongMessage}
+        </div> */}
         </div>
     );
 }

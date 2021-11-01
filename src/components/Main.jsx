@@ -12,8 +12,11 @@ import Spinner from './Spinner';
 const Main = () => {
     // let idFoundArray = []
     const [flights, setFlights] = React.useState(null);
-    const [timeData, setTimeData] = React.useState(null);
-    const [dealsGet, setDealsGet] = React.useState(null);
+    const [topDeals, setTopDeals] = React.useState(null);
+    const [inputFrom, setInputFrom] = React.useState(null);
+    const [inputTo, setInputTo] = React.useState(null);
+    const [departureDate, setDepartureDate] = React.useState(null);
+    const [landingDate, setLandingDate] = React.useState(null);
     // const [cars, setCars] = React.useState(null);
     // const [carsToUsers, setCarsToUsers] = React.useState(null);
 
@@ -22,42 +25,39 @@ const Main = () => {
     }, [])
 
     const getDataFlights = async () => {
-        const response = await axios.get(`https://opensky-network.org/api/states/all`);
-        console.log(response.data);
-        setFlights(response.data.states)
-        setTimeData(response.data.time)
-        getDeals(response.data.states , response.data.time)
+        const response = await axios.get(`https://617c2bf2d842cf001711c288.mockapi.io/flights`);
+        // console.log(response.data);
+        setFlights(response.data)
+        getDeals(response.data)
     }
-   const getDeals = (flightss , time) => {
+   const getDeals = (flightsDeals) => {
        let arrayyHelper = []
-    const foundFirstDeal = flightss.find(element => (element[2] == 'Israel'));
-    const foundSecondDeal = flightss.find(element => ((element[2] == 'Israel') && ( foundFirstDeal[0] != element[0] )));
-    const foundThirdDeal = flightss.find(element => ((element[2] == 'Israel') && ( foundFirstDeal[0] != element[0] ) && ( foundSecondDeal[0] != element[0] )));
-    const foundFourthDeal = flightss.find(element => ((element[2] == 'Italy') ));
-    const foundFifthDeal = flightss.find(element => ((element[2] == 'France') ));
-    const foundSixthDeal = flightss.find(element => ((element[2] == 'Spain') ));
-    arrayyHelper.push({first:foundFirstDeal, second:foundFourthDeal} , {first:foundSecondDeal , second:foundFifthDeal} , {first:foundThirdDeal , second:foundSixthDeal})
-    console.log(arrayyHelper);
-    // console.log(foundFirstDeal);
-    // console.log(foundSecondDeal);
-    // console.log(foundThirdDeal);
-    // console.log(foundFourthDeal);
-    // console.log(foundFifthDeal);
-    // console.log(foundSixthDeal);
-    // console.log(time);
-    timeConvert(time)
-    setDealsGet(arrayyHelper)
+    const foundFirstDeal = flightsDeals.find(element => (element.origin === 'Israel'));
+    const foundSecondDeal = flightsDeals.find(element => ((element.origin === 'Israel') && ( foundFirstDeal.id != element.id )));
+    const foundThirdDeal = flightsDeals.find(element => ((element.origin === 'Israel') && ( foundFirstDeal.id != element.id ) && ( foundSecondDeal.id != element.id )));
+    arrayyHelper.push(foundFirstDeal , foundSecondDeal , foundThirdDeal)
+    setTopDeals(arrayyHelper)
    }
-   const timeConvert = (time) => {
-    // const unixTimestamp = 1575909015
-
-    const milliseconds = time * 1000 // 1575909015000
-
-    const dateObject = new Date(milliseconds)
-
-    const timeHuman =  dateObject.toLocaleString(); //2019-12-9 10:30:15
-    setTimeData(timeHuman)
+   const fromInput = (e) => {
+       console.log(e.target.value);
+       setInputFrom(e.target.value)
+    // const foundFirstDeal = flightsDeals.find(element => (element.origin === 'Israel'));
    }
+   const toInput = (e) => {
+    console.log(e.target.value);
+    setInputTo(e.target.value)
+ // const foundFirstDeal = flightsDeals.find(element => (element.origin === 'Israel'));
+}
+const dateDeparture = (e) => {
+    console.log(e.target.value);
+    setDepartureDate(e.target.value)
+ // const foundFirstDeal = flightsDeals.find(element => (element.origin === 'Israel'));
+}
+const dateLanding = (e) => {
+    console.log(e.target.value);
+    setLandingDate(e.target.value)
+ // const foundFirstDeal = flightsDeals.find(element => (element.origin === 'Israel'));
+}
     return (
         <div className="ui container ">
             <div className="ui segment">
@@ -68,13 +68,15 @@ const Main = () => {
                 <div className="ui segment">
                     <Route path="/">
                        {
-                           ((dealsGet !== null) && (timeData !== null)) ? <Home dealsGet={dealsGet} timeData={timeData}/> : <Spinner/>
+                           (topDeals !== null) ? <Home topDeals={topDeals}/> : <Spinner/>
                        }
                         
                     </Route>
 
-                    <Route path="/users">
-                        {/* <Users /> */}
+                    <Route path="/search">
+                    {
+                           (flights !== null) ? <Users flights={flights} fromInput={fromInput} toInput={toInput} dateDeparture={dateDeparture} dateLanding={dateLanding}/> : <Spinner/>
+                       }
                     </Route>
 
                     <Route path="/deposits">
