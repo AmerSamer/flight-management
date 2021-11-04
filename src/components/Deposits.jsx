@@ -1,5 +1,5 @@
 import React from 'react';
-import Spinner from './Spinner';
+// import Spinner from './Spinner';
 function Deposits({ cart }) {
     return (
         <div className="ui container">
