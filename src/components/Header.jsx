@@ -14,9 +14,12 @@ const Header = () => {
                  <Link className="item" href="/cart">
                     Cart 🛒
                 </Link>
-                {<Link className="item" href="/signUp">
+                <Link className="item" href="/signUp">
                     Sign Up
-                </Link> }
+                </Link> 
+                <Link className="item" href="/login">
+                    Login
+                </Link> 
                 {/* <div className="right menu">
                     <a className="ui item" href="www.google.com">
                         Logout

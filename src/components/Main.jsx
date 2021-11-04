@@ -8,6 +8,7 @@ import Header from './Header';
 import axios from 'axios';
 import './style.css';
 import Spinner from './Spinner';
+import Login from './Login';
 
 const Main = () => {
     let ar = []
@@ -23,6 +24,12 @@ const Main = () => {
     const [psw, setPsw] = React.useState(null);
     const [message, setMessage] = React.useState(null);
     const [users, setUsers] = React.useState(null);
+    const [loginEmail, setLoginEmail] = React.useState(null);
+    const [loginPsw, setLoginPsw] = React.useState(null);
+    const [loginMessage, setLoginMessage] = React.useState(null);
+    const [youShouldLogin, setYouShouldLogin] = React.useState(null);
+
+    
 
     
 
@@ -81,11 +88,16 @@ const searchForDealHandler = async () => {
 const addToCartHandler = (e) => {
     const found = flights.find(val => val.id === e.target.id)
     console.log(found);
-    // ar.push(found)
-    let temp = [...cart]
-    temp.push(found)
-    // console.log(ar);
-    setCart(temp)
+    const foundActive = users.find(val => val.active === true)
+    // console.log(foundActive.id);
+    if((foundActive != null)){
+        let temp = [...cart]
+        temp.push(found)
+        setCart(temp)
+    }else{
+        setYouShouldLogin('You Should Login To Continue')
+    }
+  
 }
 const emailHandler = (e) => {
     // console.log(e.target.value);
@@ -120,6 +132,28 @@ const addNewUserHandler = async () => {
         setMessage('Something went wrong! Please Try Again')
     }
 }
+const loginEmailHandler = (e) => {
+    // console.log(e.target.value);
+    setLoginEmail(e.target.value)
+}
+const loginPasswordHandler = (e) => {
+    // console.log(e.target.value);
+    setLoginPsw(e.target.value)
+}
+const loginUserHandler = async () => {
+    const found = users.find(element => element.email === loginEmail);
+    if ((loginEmail != null) && (loginPsw != null) && (found != null ) && (loginPsw == found.password)) {
+        // console.log('loged in');
+        let newAction = {
+            "active": true
+        }
+        await axios.put(`https://617c2bf2d842cf001711c288.mockapi.io/users/${found.id}`, newAction)
+        setLoginMessage('Succesfully Login')
+    }else{
+        // console.log('Something went wrong! Please Try Again');
+        setLoginMessage('Something went wrong! Please Try Again')
+    }
+}
     return (
         <div className="ui container ">
             <div className="ui segment">
@@ -137,7 +171,7 @@ const addNewUserHandler = async () => {
 
                     <Route path="/search">
                     {
-                           (flights !== null) ? <Users flights={flights} fromInput={fromInput} toInput={toInput} dateDeparture={dateDeparture} searchForDealHandler={searchForDealHandler} resultsSearch={resultsSearch} addToCartHandler={addToCartHandler} />: <Spinner/>
+                           (flights !== null) ? <Users flights={flights} fromInput={fromInput} toInput={toInput} dateDeparture={dateDeparture} searchForDealHandler={searchForDealHandler} resultsSearch={resultsSearch} addToCartHandler={addToCartHandler} youShouldLogin={youShouldLogin}/>: <Spinner/>
                        }
                     </Route>
 
@@ -151,6 +185,12 @@ const addNewUserHandler = async () => {
                     <Route path="/signUp">
                         {
                             <Transfers emailHandler={emailHandler} passwordHandler={passwordHandler} addNewUserHandler={addNewUserHandler} message={message}/>
+                        }
+                    </Route>
+                    <Route path="/login">
+                        {
+                            <Login loginEmailHandler={loginEmailHandler} loginPasswordHandler={loginPasswordHandler} loginUserHandler={loginUserHandler} loginMessage={loginMessage}/>
+                            // <Transfers emailHandler={emailHandler} passwordHandler={passwordHandler} addNewUserHandler={addNewUserHandler} message={message}/>
                         }
                     </Route>
                 </div>

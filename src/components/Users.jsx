@@ -1,6 +1,6 @@
 import React from 'react';
 import Spinner from './Spinner'
-function Users({ flights, fromInput, toInput, dateDeparture, searchForDealHandler, resultsSearch , addToCartHandler }) {
+function Users({ flights, fromInput, toInput, dateDeparture, searchForDealHandler, resultsSearch, addToCartHandler, youShouldLogin }) {
     return (
         <div >
             <p style={{ textAlign: 'center', fontSize: '30px' }}>Look For your own Travil</p>
@@ -38,6 +38,10 @@ function Users({ flights, fromInput, toInput, dateDeparture, searchForDealHandle
 
                     />
                 </div>
+
+            </div>
+            <div style={{ textAlign: 'center', color: 'red', padding: '20px 0', fontSize: 'larger' }}>
+                {youShouldLogin ? youShouldLogin : ''}
             </div>
             <div>
                 {
@@ -79,6 +83,7 @@ function Users({ flights, fromInput, toInput, dateDeparture, searchForDealHandle
                                                     onClick={addToCartHandler}
                                                 />
                                             </div>
+
                                         </div>
                                     </div>
                                 </div>
@@ -91,5 +96,4 @@ function Users({ flights, fromInput, toInput, dateDeparture, searchForDealHandle
         </div>
     );
 }
-
 export default Users;
