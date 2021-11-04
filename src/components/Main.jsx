@@ -20,7 +20,13 @@ const Main = () => {
     const [resultsSearch, setResultsSearch] = React.useState(null);
     const [cart, setCart] = React.useState([]);
     const [email, setEmail] = React.useState(null);
+    const [psw, setPsw] = React.useState(null);
+    const [message, setMessage] = React.useState(null);
+    const [users, setUsers] = React.useState(null);
+
     
+
+
     React.useEffect(() => {
         getDataFlights();
     }, [])
@@ -85,6 +91,35 @@ const emailHandler = (e) => {
     // console.log(e.target.value);
     setEmail(e.target.value)
 }
+const passwordHandler = (e) => {
+    // console.log(e.target.value);
+    setPsw(e.target.value)
+
+}
+React.useEffect(() => {
+    getDataUsers();
+}, [])
+
+const getDataUsers = async () => {
+    const response = await axios.get(`https://617c2bf2d842cf001711c288.mockapi.io/users`);
+    // console.log(response.data);
+    setUsers(response.data)
+    // getDeals(response.data)
+}
+const addNewUserHandler = async () => {
+    const found = users.find(element => element.email === email);
+    console.log(found);
+    if ((email != null) && (psw != null) && (found == null )) {
+        let newAction = {
+            "email": email,
+            "password": psw
+        }
+        await axios.post(`https://617c2bf2d842cf001711c288.mockapi.io/users`, newAction)
+        setMessage('Succesfully Adding')
+    }else{
+        setMessage('Something went wrong! Please Try Again')
+    }
+}
     return (
         <div className="ui container ">
             <div className="ui segment">
@@ -115,7 +150,7 @@ const emailHandler = (e) => {
 
                     <Route path="/signUp">
                         {
-                            <Transfers emailHandler={emailHandler}/>
+                            <Transfers emailHandler={emailHandler} passwordHandler={passwordHandler} addNewUserHandler={addNewUserHandler} message={message}/>
                         }
                     </Route>
                 </div>

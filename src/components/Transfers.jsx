@@ -1,7 +1,7 @@
 import React from 'react';
 import Spinner from './Spinner';
 import './style.css'
-function Transfers({ emailHandler }) {
+function Transfers({ emailHandler , passwordHandler , addNewUserHandler , message }) {
     return (
         <div className="ui container">
             <form style={{ border: '1px solid #ccc' }} />
@@ -14,10 +14,10 @@ function Transfers({ emailHandler }) {
                 <input type="text" placeholder="Enter Email" name="email" required onChange={emailHandler} />
 
                 <label for="psw"><b>Password</b></label>
-                <input type="password" placeholder="Enter Password" name="psw" required />
-
+                <input type="password" placeholder="Enter Password" name="psw" required onChange={passwordHandler}/>
+{/* 
                 <label for="psw-repeat"><b>Repeat Password</b></label>
-                <input type="password" placeholder="Repeat Password" name="psw-repeat" required />
+                <input type="password" placeholder="Repeat Password" name="psw-repeat" required /> */}
 
                 {/* <label> */}
                     {/* <input type="checkbox" checked="checked" name="remember" style={{ marginBottom: '15px' }} /> Remember me */}
@@ -27,9 +27,10 @@ function Transfers({ emailHandler }) {
 
                 <div class="clearfix">
                     <button type="button" class="cancelbtn">Cancel</button>
-                    <button type="submit" class="signupbtn">Sign Up</button>
+                    <button type="submit" class="signupbtn" onClick={addNewUserHandler}>Sign Up</button>
                 </div>
             </div>
+            {message === 'Succesfully Adding' ? <div style={{ textAlign: 'center' , fontSize: 'larger' , color: 'green'}}>{message}</div> : <div style={{ textAlign: 'center' , fontSize: 'larger' , color: 'red'}}>{message}</div>}
             {/* </form> */}
             {/* <div className="users-details">
                 {
