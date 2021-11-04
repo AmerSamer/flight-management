@@ -1,10 +1,8 @@
 import React from 'react';
 import Spinner from './Spinner';
 function Deposits({ cart }) {
-    // console.log(cart.origin);
     return (
         <div className="ui container">
-           {/* {cart.origin} */}
            <p style={{textAlign: 'center' , fontSize:'larger'}}>Your Cart</p>
              <div className="users-details">
                 {

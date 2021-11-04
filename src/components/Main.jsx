@@ -6,18 +6,16 @@ import Transfers from './Transfers';
 import Route from './Route';
 import Header from './Header';
 import axios from 'axios';
-import './style.css';
 import Spinner from './Spinner';
 import Login from './Login';
+import './style.css';
 
 const Main = () => {
-    let ar = []
     const [flights, setFlights] = React.useState(null);
     const [topDeals, setTopDeals] = React.useState(null);
     const [inputFrom, setInputFrom] = React.useState(null);
     const [inputTo, setInputTo] = React.useState(null);
     const [departureDate, setDepartureDate] = React.useState(null);
-    // const [landingDate, setLandingDate] = React.useState(null);
     const [resultsSearch, setResultsSearch] = React.useState(null);
     const [cart, setCart] = React.useState([]);
     const [email, setEmail] = React.useState(null);
@@ -29,18 +27,12 @@ const Main = () => {
     const [loginMessage, setLoginMessage] = React.useState(null);
     const [youShouldLogin, setYouShouldLogin] = React.useState(null);
 
-    
-
-    
-
-
     React.useEffect(() => {
         getDataFlights();
     }, [])
 
     const getDataFlights = async () => {
         const response = await axios.get(`https://617c2bf2d842cf001711c288.mockapi.io/flights`);
-        // console.log(response.data);
         setFlights(response.data)
         getDeals(response.data)
     }
@@ -55,26 +47,18 @@ const Main = () => {
    const fromInput = (e) => {
        console.log(e.target.value);
        setInputFrom(e.target.value)
-    // const foundFirstDeal = flightsDeals.find(element => (element.origin === 'Israel'));
    }
    const toInput = (e) => {
     console.log(e.target.value);
     setInputTo(e.target.value)
- // const foundFirstDeal = flightsDeals.find(element => (element.origin === 'Israel'));
 }
 const dateDeparture = (e) => {
     console.log(e.target.value);
     setDepartureDate(e.target.value)
- // const foundFirstDeal = flightsDeals.find(element => (element.origin === 'Israel'));
 }
-// const dateLanding = (e) => {
-//     console.log(e.target.value);
-//     setLandingDate(e.target.value)
-//  // const foundFirstDeal = flightsDeals.find(element => (element.origin === 'Israel'));
-// }
+
 const searchForDealHandler = async () => {
     let arrHelper = []
-    //  console.log(inputFrom);
      const foundInputFrom = flights.filter(element => element.origin === inputFrom);
      for (let i = 0; i < foundInputFrom.length; i++) {
         if((foundInputFrom[i].destination === inputTo) && (departureDate < foundInputFrom[i].departureTime)){
@@ -83,13 +67,11 @@ const searchForDealHandler = async () => {
          }         
      }
      arrHelper.length === 0 ? setResultsSearch(['No Results']) : setResultsSearch(arrHelper)
-    //  setResultsSearch(arrHelper)
 }
 const addToCartHandler = (e) => {
     const found = flights.find(val => val.id === e.target.id)
     console.log(found);
     const foundActive = users.find(val => val.active === true)
-    // console.log(foundActive.id);
     if((foundActive != null)){
         let temp = [...cart]
         temp.push(found)
@@ -100,11 +82,9 @@ const addToCartHandler = (e) => {
   
 }
 const emailHandler = (e) => {
-    // console.log(e.target.value);
     setEmail(e.target.value)
 }
 const passwordHandler = (e) => {
-    // console.log(e.target.value);
     setPsw(e.target.value)
 
 }
@@ -114,9 +94,7 @@ React.useEffect(() => {
 
 const getDataUsers = async () => {
     const response = await axios.get(`https://617c2bf2d842cf001711c288.mockapi.io/users`);
-    // console.log(response.data);
     setUsers(response.data)
-    // getDeals(response.data)
 }
 const addNewUserHandler = async () => {
     const found = users.find(element => element.email === email);
@@ -133,24 +111,20 @@ const addNewUserHandler = async () => {
     }
 }
 const loginEmailHandler = (e) => {
-    // console.log(e.target.value);
     setLoginEmail(e.target.value)
 }
 const loginPasswordHandler = (e) => {
-    // console.log(e.target.value);
     setLoginPsw(e.target.value)
 }
 const loginUserHandler = async () => {
     const found = users.find(element => element.email === loginEmail);
     if ((loginEmail != null) && (loginPsw != null) && (found != null ) && (loginPsw == found.password)) {
-        // console.log('loged in');
         let newAction = {
             "active": true
         }
         await axios.put(`https://617c2bf2d842cf001711c288.mockapi.io/users/${found.id}`, newAction)
         setLoginMessage('Succesfully Login')
     }else{
-        // console.log('Something went wrong! Please Try Again');
         setLoginMessage('Something went wrong! Please Try Again')
     }
 }
@@ -179,7 +153,6 @@ const loginUserHandler = async () => {
                     {
                            (cart !== null) ? <Deposits cart={cart} /> : <Spinner/>
                        }
-                        {/* <Deposits cart={cart} /> */}
                     </Route>
 
                     <Route path="/signUp">
@@ -190,7 +163,6 @@ const loginUserHandler = async () => {
                     <Route path="/login">
                         {
                             <Login loginEmailHandler={loginEmailHandler} loginPasswordHandler={loginPasswordHandler} loginUserHandler={loginUserHandler} loginMessage={loginMessage}/>
-                            // <Transfers emailHandler={emailHandler} passwordHandler={passwordHandler} addNewUserHandler={addNewUserHandler} message={message}/>
                         }
                     </Route>
                 </div>
